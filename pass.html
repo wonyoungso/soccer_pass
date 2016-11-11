@@ -4,10 +4,19 @@
 <head>
 <style>
 
+body {
 
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+}
+svg {
+    background:url(./back.png);
+}
 svg text {
-            font-family:YDIYGO320, '08SeoulNamsan B', 돋움체,Arial;         
-            
+            font-family: Helvetica;
+            fill: black;
+            font-weight:bold;
         }
 
 
@@ -25,21 +34,92 @@ svg text {
         //
         var gravity = 0.03;
         var friction = 0.8;
+
+
         var graph = {
-            "nodes": [
-            { "name": "1 Iker CASILLAS(RM)", "radius": 21, "group": 0 , "x" : 100, "y" : 100},    //좌표를 직접 입력해야 함
-            { "name": "3 Gerard PIQUE(FCB)", "radius": 107, "group": 1, "x": 200, "y": 100 },
-            { "name": "6 Andres INIESTA(FCB)", "radius": 134, "group": 2, "x": 300, "y": 100 },
-            { "name": "8 Xavi HERNANDEZ(FCB)", "radius": 134, "group": 3, "x": 400, "y": 100 },
-            { "name": "14 Xabi ALONSO(RM)", "radius": 113, "group": 4, "x": 500, "y": 100 },
-            { "name": "15 Sergio Ramos(RM)", "radius": 102, "group": 5, "x": 600, "y": 100 },
-            { "name": "16 Sergio BUSQUETS(FCB)", "radius": 123, "group": 6, "x": 100, "y": 200 },
-            { "name": "18 Jordi ALBA(FCB)", "radius": 98, "group": 7, "x": 200, "y": 200 },
-            { "name": "19 Diego COSTA(AM)", "radius": 34, "group": 8, "x": 300, "y": 200 },
-            { "name": "21 David SILVA(MCT)", "radius": 87, "group": 9, "x": 400, "y": 200 },
-            { "name": "22 Cesar AZPILICUETA(CFC)", "radius": 75, "group": 10, "x": 500, "y": 200 },
-            { "name": "shots", "radius": 8, "group": 11, "x": 600, "y": 200 },
-            ],
+            "nodes": 
+           
+         [{
+                "number": 1,
+                "name": "Iker Casillas",
+                "radius": 21,
+                "group": 0,
+                "x": 399.99999999999994,
+                "y": 980
+              }, {
+                "number": 3,
+                "name": "Gerard Pique",
+                "radius": 107,
+                "group": 1,
+                "x": 665,
+                "y": 612
+              }, {
+                "number": 6,
+                "name": "Andres Iniesta",
+                "radius": 134,
+                "group": 2,
+                "x": 194,
+                "y": 220
+              }, {
+                "number": 8,
+                "name": "Xavi Hernandez",
+                "radius": 134,
+                "group": 3,
+                "x": 392.99999999999994,
+                "y": 512
+              }, {
+                "number": 14,
+                "name": " Xabi Alonso",
+                "radius": 113,
+                "group": 4,
+                "x": 240.00000000000003,
+                "y": 435
+              }, {
+                "number": 15,
+                "name": " Sergio Ramos",
+                "radius": 102,
+                "group": 5,
+                "x": 405,
+                "y": 873
+              }, {
+                "number": 16,
+                "name": " Sergio Busquets",
+                "radius": 123,
+                "group": 6,
+                "x": 135,
+                "y": 743
+              }, {
+                "number": 18,
+                "name": " Jordi Alba",
+                "radius": 98,
+                "group": 7,
+                "x": 75,
+                "y": 329
+              }, {
+                "number": 19,
+                "name": " Diego Costa",
+                "radius": 34,
+                "group": 8,
+                "x": 662,
+                "y": 276
+              }, {
+                "number": 21,
+                "name": " David Silva",
+                "radius": 87,
+                "group": 9,
+                "x": 493,
+                "y": 157.00000000000003
+              }, {
+                "number": 22,
+                "name": " Cesar Azpilicueta",
+                "radius": 75,
+                "group": 10,
+                "x": 545,
+                "y": 394
+              },
+            { "name": "shots", "radius": 8, "group": 11, "x":394,"y":30 }],
+
+
             "links": [
             { "source": 0, "target": 1, "value": 5 },
             { "source": 0, "target": 3, "value": 1 },
@@ -144,8 +224,8 @@ svg text {
         };
 
         //window extent
-        var width = 1024,    //pc는 1024 모바일은 640으로 중앙일보에서 작업할 것이라고 함. 
-            height = 600;   //height는 중앙일보측에서는 별 상관 없다고 했으므로 사용성을 고려하여 잡아야 함
+        var width = 780,    //pc는 1024 모바일은 640으로 중앙일보에서 작업할 것이라고 함. 
+            height = 1000;   //height는 중앙일보측에서는 별 상관 없다고 했으므로 사용성을 고려하여 잡아야 함
         
         //위의 그룹별로 이 컬러 지정
         var color = ["#4682B4", "#FF8C00", "#9ACD32", "#8B0000", "#2F4F4F", "#4B0082", "#006400", "#CD5C5C", "#FFD700",   
@@ -205,6 +285,7 @@ svg text {
 
 
         var svg = d3.select("body").append("svg")
+            .style("background-color", "#9ed648")
             .attr("width", width)
             .attr("height", height);
                 
@@ -228,7 +309,7 @@ svg text {
         radiusScale.domain([d3.min(graph.nodes, function (d) { return d.radius; }), d3.max(graph.nodes, function (d) { return d.radius; })])
                      .range([5, 20]);
         textScale.domain([d3.min(graph.nodes, function (d) { return d.radius; }), d3.max(graph.nodes, function (d) { return d.radius; })])
-                     .range([10, 30]);
+                     .range([9, 14]);
         
 
 
@@ -251,28 +332,28 @@ svg text {
 
         pathMarker.exit().remove();
 
-        var link = edge.selectAll(".lines")
-                    .data(graph.links, function (d) { return d.source.name + d.target.name + d.value; });
+        // var link = edge.selectAll(".lines")
+        //             .data(graph.links, function (d) { return d.source.name + d.target.name + d.value; });
 
         //line을 두번 그리는 이유는, 일러스트레이터에서 svg import 시, arrow의 path역할을 하는 link가 표시되지 않기 때문에.
         var link2 = edge.selectAll(".lines2")
                    .data(graph.links, function (d) { return d.source.name + d.target.name + d.value; });
 
-        link.enter().insert("path", "g")
-            .attr("class", "lines")
-            .attr("marker-mid", function (d, i) { return "url(#arrowHead" + d.source.name.replace(/[\s()]/gi, "") + d.target.name.replace(/[\s()]/gi, "") + ")"; })
-            .attr("stroke", function (d) { return color[d.source.group]; })
-            .attr("stroke-width", function (d) { return d.value + "px"; })
-            .attr("stroke-opacity", 0);  //그리지 않음. 화살표 가이드 역할만
+        // link.enter().insert("path", "g")
+        //     .attr("class", "lines")
+        //     .attr("marker-mid", function (d, i) { return "url(#arrowHead" + d.source.name.replace(/[\s()]/gi, "") + d.target.name.replace(/[\s()]/gi, "") + ")"; })
+        //     .attr("stroke", function (d) { return color[d.source.group]; })
+        //     .attr("stroke-width", function (d) { return d.value + "px"; })
+        //     .attr("stroke-opacity", 0);  //그리지 않음. 화살표 가이드 역할만
 
         link2.enter().insert("path", "g")
             .attr("class", "lines2")
-            .attr("stroke", function (d) { return color[d.source.group]; })
-            .attr("stroke-width", function (d) { return d.value + "px"; })
+            .attr("stroke", function (d) { return "#FFF"; })
+            .attr("stroke-width", function (d) { return d.value / 3; })
             .attr("stroke-opacity",0.6);
            
-        link.exit().remove();
-        link2.exit().remove();
+        // link.exit().remove();
+        // link2.exit().remove();
 
         //노드 그리기
         var node = svg.selectAll(".node")
@@ -285,16 +366,27 @@ svg text {
             .attr("class", "cir")
             .attr("r", function (d) { if (d.radius == 0) return 2; else return radiusScale(d.radius); })
             .attr("stroke", "#fff")
-            .attr("stroke-width","2px")
-            .style("fill", function (d) { return color[d.group]; });
+            .attr("stroke-width","3px")
+            .style("fill", "#FF0000");
 
         node.append("text")
                   .attr("class", "cText")
-                  .attr("dx", 8)
-                  .attr("dy", ".35em")
+                  .attr("dx", 0)
+                  .attr("text-anchor", "middle")
+                  .attr("dy", "-2em")
                   .style("font-size", function (d) { return textScale(d.radius) + "px" })
                   .style("opacity", function (d) { if (d.radius == 0) return 0.05; else return 1; })
                   .text(function (d) { return (d.name); });
+
+           node.append("text")
+                  .attr("class", "cText")
+                  .attr("dx", 0)
+                  .style("fill", "white")
+                  .attr("text-anchor", "middle")
+                  .attr("dy", "0.27em")
+                  .style("font-size", function (d) { return textScale(d.radius) + "px" })
+                  .style("opacity", function (d) { if (d.radius == 0) return 0.05; else return 1; })
+                  .text(function (d) { return (d.number); });
         
         tick();
 
@@ -303,11 +395,11 @@ svg text {
 
         function tick() {
 
-            link.attr("d", lineDraw);
-            link.attr("x1", function (d) { return xScale(d.source.x); })
-                .attr("y1", function (d) { return yScale(d.source.y); })
-                .attr("x2", function (d) { return xScale(d.target.x); })
-                .attr("y2", function (d) { return yScale(d.target.y); });
+            // link.attr("d", lineDraw);
+            // link.attr("x1", function (d) { return xScale(d.source.x); })
+            //     .attr("y1", function (d) { return yScale(d.source.y); })
+            //     .attr("x2", function (d) { return xScale(d.target.x); })
+            //     .attr("y2", function (d) { return yScale(d.target.y); });
 
             link2.attr("d", lineDraw);
             link2.attr("x1", function (d) { return xScale(d.source.x); })
@@ -322,20 +414,21 @@ svg text {
 
             function lineDraw(d) {
 
-                    var R = 5;
+                    // var R = 5;
                     var sx = xScale(d.source.x);
                     var tx = xScale(d.target.x);
                     var sy = yScale(d.source.y);
                     var ty = yScale(d.target.y);
-                    var xx = sx + ((tx - sx) * Math.cos(R * Math.PI / 180) - (ty - sy) * Math.sin(R * Math.PI / 180));
-                    var yy = sy + ((tx - sx) * Math.sin(R * Math.PI / 180) + (ty - sy) * Math.cos(R * Math.PI / 180));
+                    // var xx = sx + ((tx - sx) * Math.cos(R * Math.PI / 180) - (ty - sy) * Math.sin(R * Math.PI / 180));
+                    // var yy = sy + ((tx - sx) * Math.sin(R * Math.PI / 180) + (ty - sy) * Math.cos(R * Math.PI / 180));
 
-                    var linkData2 = [{ x: sx, y: sy }, { x: xx, y: yy }, { x: tx, y: ty }];
+                    // var linkData2 = [{ x: sx, y: sy }, { x: xx, y: yy }, { x: tx, y: ty }];
+                    var linkData2 = [{ x: sx, y: sy }, { x: tx, y: ty }];
 
                     //이 부분 조정을 통해 곡선 곡률 조정
                     var line = d3.svg.line()
-                         .interpolate("bundle")
-                         .tension(1.1)
+                         // .interpolate("bundle")
+                         // .tension(1.1)
                         .x(function (d) { return d.x; })
                         .y(function (d) { return d.y; });
                     return line(linkData2);
